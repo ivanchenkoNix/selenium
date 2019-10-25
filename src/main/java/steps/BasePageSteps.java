@@ -1,25 +1,18 @@
 package steps;
 
-import io.qameta.htmlelements.WebPage;
-import io.qameta.htmlelements.WebPageFactory;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
+import props.Properties;
 
-public class BasePageSteps {
+public class BasePageSteps extends WebDriverSteps {
 
-    private WebDriver webDriver;
-    private static final String PROJECT_URL = "https://www.amazon.com";
 
-    public BasePageSteps(WebDriver driver) {
-        this.webDriver = driver;
-    }
-
-    WebDriver getWebDriver() {
-        return webDriver;
+    public BasePageSteps(WebDriver webDriver) {
+        super(webDriver);
     }
 
     public BasePageSteps openHomePage() {
-        getWebDriver().get(PROJECT_URL);
+        getWebDriver().get(Properties.props.serviceUrl());
         return this;
     }
 
@@ -34,13 +27,9 @@ public class BasePageSteps {
         return this;
     }
 
-    public ResultPageSteps clickSearchButton(){
+    public ResultPageSteps clickSearchButton() {
         onPage().searchButton().click();
         return new ResultPageSteps(getWebDriver());
-    }
-
-    protected <T extends WebPage> T on(Class<T> pageClass) {
-        return new WebPageFactory().get(getWebDriver(), pageClass);
     }
 
     private BasePage onPage() {
